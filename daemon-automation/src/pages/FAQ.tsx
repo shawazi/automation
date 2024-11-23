@@ -54,9 +54,9 @@ const FAQ = () => {
                 <li>Appointment Scheduling</li>
                 <li>Monitoring and Alerting</li>
                 <li>Log Management</li>
-                <li>Network Services</li>
                 <li>Security and Access Control</li>
                 <li>Continuous Integration and Continuous Deployment</li>
+              </ul>
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -69,7 +69,15 @@ const FAQ = () => {
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              [Content coming soon]
+              By automating processes, you can free up your time for strategic initiatives. With fewer manual tasks, you can focus on growth and innovation.
+              <br />
+              Our services help you:
+              <ul>
+                <li>streamline your operations</li>
+                <li>improve customer satisfaction</li>
+                <li>reduce costs</li>
+                <li>maximize profit margins</li>
+              </ul>
             </Typography>
           </AccordionDetails>
         </Accordion>

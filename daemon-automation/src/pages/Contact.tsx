@@ -1,83 +1,173 @@
-import { Container, Typography, Paper, TextField, Button, Box, Grid } from '@mui/material';
+import { useState } from 'react';
+import { Container, Grid, Typography, Paper, Box, TextField, Button, Divider, Alert } from '@mui/material';
 import { useSpring, animated } from '@react-spring/web';
+import { InlineWidget } from 'react-calendly';
+
+interface ContactForm {
+  name: string;
+  email: string;
+  company: string;
+  message: string;
+  serviceType: string;
+}
+
+const initialFormState: ContactForm = {
+  name: '',
+  email: '',
+  company: '',
+  message: '',
+  serviceType: '',
+};
 
 const Contact = () => {
+  const [formData, setFormData] = useState<ContactForm>(initialFormState);
+  const [submitted, setSubmitted] = useState(false);
+
   const fadeIn = useSpring({
     from: { opacity: 0, y: 30 },
     to: { opacity: 1, y: 0 },
-    config: { mass: 1, tension: 400, friction: 26 }
+    config: { mass: 1, tension: 280, friction: 60 }
   });
 
-  return (
-    <Container maxWidth="lg" sx={{ width: '100%', px: { xs: 2, sm: 3, md: 4 }, py: 8 }}>
-      <animated.div style={fadeIn}>
-        <Typography variant="h2" sx={{ mb: 6, mt: 4, textAlign: 'center' }}>
-          Contact Us
-        </Typography>
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    // TODO: Implement form submission logic
+    // This would connect to your backend API
+    setSubmitted(true);
+    
+    // Reset form after submission
+    setTimeout(() => {
+      setFormData(initialFormState);
+      setSubmitted(false);
+    }, 3000);
+  };
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  return (
+    <animated.div style={fadeIn}>
+      <Container maxWidth="lg" sx={{ py: 8 }}>
         <Grid container spacing={4}>
+          {/* Contact Form Section */}
           <Grid item xs={12} md={6}>
-            <Paper sx={{ p: 4, borderRadius: 2 }}>
-              <Typography variant="h5" gutterBottom>
+            <Paper elevation={3} sx={{ p: 4, height: '100%' }}>
+              <Typography variant="h4" gutterBottom>
                 Get in Touch
               </Typography>
-              <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                <TextField
-                  fullWidth
-                  label="Name"
-                  variant="outlined"
-                  margin="normal"
-                  required
+              <Typography variant="body1" paragraph>
+                Let's discuss how we can automate your business processes.
+              </Typography>
+              
+              {submitted && (
+                <Alert severity="success" sx={{ mb: 2 }}>
+                  Thank you for your message! We'll be in touch soon.
+                </Alert>
+              )}
+
+              <form onSubmit={handleSubmit}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Company"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Service Type"
+                      name="serviceType"
+                      value={formData.serviceType}
+                      onChange={handleChange}
+                      required
+                      helperText="e.g., Lead Generation, Process Management, Task Scheduling"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Message"
+                      name="message"
+                      multiline
+                      rows={4}
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      size="large"
+                      fullWidth
+                      sx={{
+                        mt: 2,
+                        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+                        color: 'white',
+                      }}
+                    >
+                      Send Message
+                    </Button>
+                  </Grid>
+                </Grid>
+              </form>
+            </Paper>
+          </Grid>
+
+          {/* Calendly Integration */}
+          <Grid item xs={12} md={6}>
+            <Paper elevation={3} sx={{ p: 4, height: '100%' }}>
+              <Typography variant="h4" gutterBottom>
+                Schedule a Consultation
+              </Typography>
+              <Typography variant="body1" paragraph>
+                Book a time that works best for you. We'll discuss your automation needs and create a customized solution.
+              </Typography>
+              <Box sx={{ height: '600px' }}>
+                <InlineWidget 
+                  url="https://calendly.com/your-calendly-url"
+                  styles={{
+                    height: '100%',
+                    width: '100%',
+                  }}
                 />
-                <TextField
-                  fullWidth
-                  label="Email"
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  type="email"
-                />
-                <TextField
-                  fullWidth
-                  label="Message"
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  multiline
-                  rows={4}
-                />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  sx={{ mt: 2 }}
-                  fullWidth
-                >
-                  Send Message
-                </Button>
               </Box>
             </Paper>
           </Grid>
-
-          <Grid item xs={12} md={6}>
-            <Paper sx={{ p: 4, height: '100%', borderRadius: 2 }}>
-              <Typography variant="h5" gutterBottom>
-                Contact Information
-              </Typography>
-              <Typography variant="body1" paragraph color="text.secondary">
-                [Contact information placeholder]
-              </Typography>
-              <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
-                Office Hours
-              </Typography>
-              <Typography variant="body1" color="text.secondary">
-                [Office hours placeholder]
-              </Typography>
-            </Paper>
-          </Grid>
         </Grid>
-      </animated.div>
-    </Container>
+      </Container>
+    </animated.div>
   );
 };
 
