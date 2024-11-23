@@ -1,0 +1,84 @@
+import { Container, Typography, Paper, TextField, Button, Box, Grid } from '@mui/material';
+import { useSpring, animated } from '@react-spring/web';
+
+const Contact = () => {
+  const fadeIn = useSpring({
+    from: { opacity: 0, y: 30 },
+    to: { opacity: 1, y: 0 },
+    config: { mass: 1, tension: 400, friction: 26 }
+  });
+
+  return (
+    <Container maxWidth="lg" sx={{ width: '100%', px: { xs: 2, sm: 3, md: 4 }, py: 8 }}>
+      <animated.div style={fadeIn}>
+        <Typography variant="h2" sx={{ mb: 6, mt: 4, textAlign: 'center' }}>
+          Contact Us
+        </Typography>
+
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={6}>
+            <Paper sx={{ p: 4, borderRadius: 2 }}>
+              <Typography variant="h5" gutterBottom>
+                Get in Touch
+              </Typography>
+              <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                <TextField
+                  fullWidth
+                  label="Name"
+                  variant="outlined"
+                  margin="normal"
+                  required
+                />
+                <TextField
+                  fullWidth
+                  label="Email"
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  type="email"
+                />
+                <TextField
+                  fullWidth
+                  label="Message"
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  multiline
+                  rows={4}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  sx={{ mt: 2 }}
+                  fullWidth
+                >
+                  Send Message
+                </Button>
+              </Box>
+            </Paper>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <Paper sx={{ p: 4, height: '100%', borderRadius: 2 }}>
+              <Typography variant="h5" gutterBottom>
+                Contact Information
+              </Typography>
+              <Typography variant="body1" paragraph color="text.secondary">
+                [Contact information placeholder]
+              </Typography>
+              <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
+                Office Hours
+              </Typography>
+              <Typography variant="body1" color="text.secondary">
+                [Office hours placeholder]
+              </Typography>
+            </Paper>
+          </Grid>
+        </Grid>
+      </animated.div>
+    </Container>
+  );
+};
+
+export default Contact;
