@@ -3,6 +3,7 @@ import { Container, Grid, Typography, Paper, Box, TextField, Button, Alert } fro
 import { useSpring, animated } from '@react-spring/web';
 import { InlineWidget } from 'react-calendly';
 import emailjs from '@emailjs/browser';
+import config, { validateConfig } from '../config';
 
 interface ContactForm {
   name: string;
@@ -24,6 +25,17 @@ const Contact = () => {
   const [formData, setFormData] = useState<ContactForm>(initialFormState);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [configValid] = useState(validateConfig());
+
+  if (!configValid) {
+    return (
+      <Container>
+        <Alert severity="error">
+          Contact form is currently unavailable due to missing configuration. Please try again later.
+        </Alert>
+      </Container>
+    );
+  }
 
   // Debug environment variables
   console.log('Environment Variables Debug:');
@@ -45,17 +57,17 @@ const Contact = () => {
     
     try {
       await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        config.EMAILJS_SERVICE_ID,
+        config.EMAILJS_TEMPLATE_ID,
         {
-          to_email: import.meta.env.VITE_CONTACT_EMAIL,
+          to_email: config.CONTACT_EMAIL,
           from_name: formData.name,
           from_email: formData.email,
           company: formData.company,
           message: formData.message,
           service_type: formData.serviceType,
         },
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        config.EMAILJS_PUBLIC_KEY
       );
       
       setSubmitted(true);
@@ -223,7 +235,7 @@ const Contact = () => {
                 }
               }}>
                 <InlineWidget 
-                  url={import.meta.env.VITE_CALENDLY_URL || ''}
+                  url={config.CALENDLY_URL || ''}
                   styles={{
                     height: '100%',
                     width: '100%'
