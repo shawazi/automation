@@ -1,4 +1,4 @@
-import { Container, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { Container, Typography, Accordion, AccordionSummary, AccordionDetails, Box } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useSpring, animated } from '@react-spring/web';
 
@@ -55,19 +55,37 @@ const FAQ = () => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>
+            <Typography paragraph>
               Automation services include:
-              <ul>
-                <li>Lead Generation</li>
-                <li>Process Management</li>
-                <li>Task Scheduling</li>
-                <li>Appointment Scheduling</li>
-                <li>Monitoring and Alerting</li>
-                <li>Log Management</li>
-                <li>Security and Access Control</li>
-                <li>Continuous Integration and Continuous Deployment</li>
-              </ul>
             </Typography>
+            <Box component="div" sx={{ pl: 2 }}>
+              <ul style={{ margin: 0, paddingLeft: '1.5rem' }}>
+                <li>
+                  <Typography variant="body1">Lead Generation</Typography>
+                </li>
+                <li>
+                  <Typography variant="body1">Process Management</Typography>
+                </li>
+                <li>
+                  <Typography variant="body1">Task Scheduling</Typography>
+                </li>
+                <li>
+                  <Typography variant="body1">Appointment Scheduling</Typography>
+                </li>
+                <li>
+                  <Typography variant="body1">Monitoring and Alerting</Typography>
+                </li>
+                <li>
+                  <Typography variant="body1">Log Management</Typography>
+                </li>
+                <li>
+                  <Typography variant="body1">Security and Access Control</Typography>
+                </li>
+                <li>
+                  <Typography variant="body1">Continuous Integration and Continuous Deployment</Typography>
+                </li>
+              </ul>
+            </Box>
           </AccordionDetails>
         </Accordion>
 
@@ -78,17 +96,28 @@ const FAQ = () => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>
+            <Typography paragraph>
               By automating processes, you can free up your time for strategic initiatives. With fewer manual tasks, you can focus on growth and innovation.
-              <br />
-              Our services help you:
-              <ul>
-                <li>streamline your operations</li>
-                <li>improve customer satisfaction</li>
-                <li>reduce costs</li>
-                <li>maximize profit margins</li>
-              </ul>
             </Typography>
+            <Typography paragraph>
+              Our services help you:
+            </Typography>
+            <Box component="div" sx={{ pl: 2 }}>
+              <ul style={{ margin: 0, paddingLeft: '1.5rem' }}>
+                <li>
+                  <Typography variant="body1">Streamline your operations</Typography>
+                </li>
+                <li>
+                  <Typography variant="body1">Improve customer satisfaction</Typography>
+                </li>
+                <li>
+                  <Typography variant="body1">Reduce costs</Typography>
+                </li>
+                <li>
+                  <Typography variant="body1">Maximize profit margins</Typography>
+                </li>
+              </ul>
+            </Box>
           </AccordionDetails>
         </Accordion>
       </animated.div>

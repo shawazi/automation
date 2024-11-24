@@ -1,4 +1,4 @@
-import { Typography, Paper, Container, Grid } from '@mui/material';
+import { Typography, Paper, Container, Grid, Box } from '@mui/material';
 import { useSpring, animated } from '@react-spring/web';
 
 const About = () => {
@@ -64,14 +64,30 @@ const About = () => {
               <Typography variant="h5" gutterBottom>
                 Why Choose Us
               </Typography>
-              <Typography variant="body1" paragraph color="text.secondary">
-                <ul>
-                  <li>Custom Solutions: Each business is unique, and our automation solutions are tailored to your specific needs</li>
-                  <li>Affordable Pricing: Enterprise-grade automation technology within reach of small businesses</li>
-                  <li>Ongoing Support: We're committed to your success with dedicated support and regular updates</li>
-                  <li>Proven Results: Our solutions have helped businesses reduce manual work by up to 70% and cut operational costs significantly</li>
+              <Box component="div" sx={{ color: 'text.secondary' }}>
+                <ul style={{ margin: 0, paddingLeft: '1.5rem' }}>
+                  <li>
+                    <Typography variant="body1">
+                      Custom Solutions: Each business is unique, and our automation solutions are tailored to your specific needs
+                    </Typography>
+                  </li>
+                  <li>
+                    <Typography variant="body1">
+                      Affordable Pricing: Enterprise-grade automation technology within reach of small businesses
+                    </Typography>
+                  </li>
+                  <li>
+                    <Typography variant="body1">
+                      Ongoing Support: We're committed to your success with dedicated support and regular updates
+                    </Typography>
+                  </li>
+                  <li>
+                    <Typography variant="body1">
+                      Proven Results: Our solutions have helped businesses reduce manual work by up to 70% and cut operational costs significantly
+                    </Typography>
+                  </li>
                 </ul>
-              </Typography>
+              </Box>
             </Paper>
           </Grid>
         </Grid>

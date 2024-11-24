@@ -8,11 +8,14 @@ import Contact from './pages/Contact';
 import Terms from './pages/Terms';
 import FAQ from './pages/FAQ';
 
+// Get the base URL from Vite's import.meta.env
+const baseUrl = import.meta.env.BASE_URL;
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
+      <Router basename={baseUrl}>
         <Box sx={{ 
           display: 'flex', 
           flexDirection: 'column', 
@@ -26,10 +29,11 @@ function App() {
               <Box component="main" sx={{ width: '100%' }}>
                 <Routes>
                   <Route path="/" element={<Home />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/terms" element={<Terms />} />
-                  <Route path="/faq" element={<FAQ />} />
+                  <Route path="about" element={<About />} />
+                  <Route path="contact" element={<Contact />} />
+                  <Route path="terms" element={<Terms />} />
+                  <Route path="faq" element={<FAQ />} />
+                  <Route path="*" element={<Home />} />
                 </Routes>
               </Box>
             </Container>
