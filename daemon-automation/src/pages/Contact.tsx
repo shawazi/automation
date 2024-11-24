@@ -26,6 +26,11 @@ const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [configValid] = useState(validateConfig());
+  const fadeIn = useSpring({
+    from: { opacity: 0, y: 30 },
+    to: { opacity: 1, y: 0 },
+    config: { mass: 1, tension: 280, friction: 60 }
+  });
 
   if (!configValid) {
     return (
@@ -36,20 +41,6 @@ const Contact = () => {
       </Container>
     );
   }
-
-  // Debug environment variables
-  console.log('Environment Variables Debug:');
-  console.log('VITE_CALENDLY_URL:', import.meta.env.VITE_CALENDLY_URL);
-  console.log('VITE_EMAILJS_SERVICE_ID:', import.meta.env.VITE_EMAILJS_SERVICE_ID);
-  console.log('VITE_EMAILJS_TEMPLATE_ID:', import.meta.env.VITE_EMAILJS_TEMPLATE_ID);
-  console.log('VITE_EMAILJS_PUBLIC_KEY:', import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
-  console.log('VITE_CONTACT_EMAIL:', import.meta.env.VITE_CONTACT_EMAIL);
-
-  const fadeIn = useSpring({
-    from: { opacity: 0, y: 30 },
-    to: { opacity: 1, y: 0 },
-    config: { mass: 1, tension: 280, friction: 60 }
-  });
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -91,8 +82,8 @@ const Contact = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ width: '100%', px: { xs: 2, sm: 3, md: 4 } }}>
-      <animated.div style={fadeIn}>
+    <animated.div style={fadeIn}>
+      <Container maxWidth="lg" sx={{ width: '100%', px: { xs: 2, sm: 3, md: 4 } }}>
         <Typography variant="h2" sx={{ 
           mb: 6, 
           mt: 4, 
@@ -249,8 +240,8 @@ const Contact = () => {
             </Paper>
           </Grid>
         </Grid>
-      </animated.div>
-    </Container>
+      </Container>
+    </animated.div>
   );
 };
 

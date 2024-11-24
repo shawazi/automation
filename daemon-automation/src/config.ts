@@ -16,7 +16,7 @@ const config: Config = {
 
 export const validateConfig = () => {
   const missingVars = Object.entries(config)
-    .filter(([_, value]) => !value)
+    .filter(([, value]) => !value)
     .map(([key]) => `VITE_${key}`);
 
   if (missingVars.length > 0) {
