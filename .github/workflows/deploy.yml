@@ -28,6 +28,9 @@ env:
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: daemon-automation
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,14 +40,15 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: daemon-automation/package-lock.json
 
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
           path: |
-            **/node_modules
+            daemon-automation/node_modules
             ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('daemon-automation/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
@@ -64,6 +68,9 @@ jobs:
   build:
     needs: lint-and-test
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: daemon-automation
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -73,14 +80,15 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: daemon-automation/package-lock.json
 
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
           path: |
-            **/node_modules
+            daemon-automation/node_modules
             ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('daemon-automation/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
@@ -88,9 +96,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            dist
-            .vite
-          key: ${{ runner.os }}-vite-build-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+            daemon-automation/dist
+            daemon-automation/.vite
+          key: ${{ runner.os }}-vite-build-${{ hashFiles('daemon-automation/**.[jt]s', 'daemon-automation/**.[jt]sx') }}
           restore-keys: |
             ${{ runner.os }}-vite-build-
 
@@ -114,7 +122,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: daemon-automation/dist
 
   deploy:
     environment:
@@ -123,6 +131,9 @@ jobs:
     if: github.ref == 'refs/heads/master'
     needs: build
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: daemon-automation
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
