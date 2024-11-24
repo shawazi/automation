@@ -203,7 +203,7 @@ const Contact = () => {
                 }
               }}>
                 <InlineWidget 
-                  url={import.meta.env.VITE_CALENDLY_URL}
+                  url={import.meta.env.VITE_CALENDLY_URL || ''}
                   styles={{
                     height: '100%',
                     width: '100%',
