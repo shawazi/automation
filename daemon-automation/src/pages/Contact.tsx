@@ -223,6 +223,7 @@ const Contact = () => {
                     primaryColor: '1a237e',
                     textColor: 'ffffff'
                   }}
+                  embedType="Inline"
                 />
               </Box>
             </Paper>

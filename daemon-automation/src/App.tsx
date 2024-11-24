@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider, CssBaseline, Box, Container } from '@mui/material';
 import { theme } from './theme';
 import Navbar from './components/Navbar';
@@ -7,12 +7,33 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Terms from './pages/Terms';
 import FAQ from './pages/FAQ';
+import { useEffect } from 'react';
+
+// Page tracking component
+function PageTracker() {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Track page view
+    if (window.analytics) {
+      window.analytics.page({
+        path: location.pathname,
+        url: window.location.href,
+        search: location.search,
+        title: document.title
+      });
+    }
+  }, [location]);
+
+  return null;
+}
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
+        <PageTracker />
         <Box sx={{ 
           display: 'flex', 
           flexDirection: 'column', 
