@@ -5,7 +5,7 @@ interface SegmentAnalytics {
     url?: string;
     title?: string;
     search?: string;
-    [key: string]: any;
+    [key: string]: string | number | boolean | undefined;
   }): void;
   track(event: string, properties?: object): void;
   identify(userId: string, traits?: object): void;

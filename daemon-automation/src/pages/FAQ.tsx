@@ -1,6 +1,6 @@
 import { Container, Typography } from '@mui/material';
 import { useSpring, animated } from '@react-spring/web';
-import { faqData } from '../data/faqData';
+import { faqData } from '../constants/faqData';
 import FAQAccordion from '../components/FAQAccordion';
 
 const FAQ = () => {
