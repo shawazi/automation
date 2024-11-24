@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Container, Grid, Typography, Paper, Box, TextField, Button, Alert } from '@mui/material';
 import { useSpring, animated } from '@react-spring/web';
 import { InlineWidget } from 'react-calendly';
+import emailjs from '@emailjs/browser';
 
 interface ContactForm {
   name: string;
@@ -22,6 +23,7 @@ const initialFormState: ContactForm = {
 const Contact = () => {
   const [formData, setFormData] = useState<ContactForm>(initialFormState);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const fadeIn = useSpring({
     from: { opacity: 0, y: 30 },
@@ -31,12 +33,33 @@ const Contact = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    setSubmitted(true);
+    setError(null);
     
-    setTimeout(() => {
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          to_email: import.meta.env.VITE_CONTACT_EMAIL,
+          from_name: formData.name,
+          from_email: formData.email,
+          company: formData.company,
+          message: formData.message,
+          service_type: formData.serviceType,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
+      
+      setSubmitted(true);
       setFormData(initialFormState);
-      setSubmitted(false);
-    }, 3000);
+      
+      setTimeout(() => {
+        setSubmitted(false);
+      }, 5000);
+    } catch (err) {
+      setError('Failed to send message. Please try again later.');
+      console.error('Email error:', err);
+    }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,14 +96,17 @@ const Contact = () => {
               <Typography variant="body1" paragraph>
                 Let's discuss how we can automate your business processes.
               </Typography>
-              
-              {submitted && (
-                <Alert severity="success" sx={{ mb: 2 }}>
-                  Thank you for your message! We'll be in touch soon.
-                </Alert>
-              )}
-
               <form onSubmit={handleSubmit}>
+                {submitted && (
+                  <Alert severity="success" sx={{ mb: 2 }}>
+                    Thank you for your message! We'll get back to you soon.
+                  </Alert>
+                )}
+                {error && (
+                  <Alert severity="error" sx={{ mb: 2 }}>
+                    {error}
+                  </Alert>
+                )}
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <TextField
@@ -177,7 +203,7 @@ const Contact = () => {
                 }
               }}>
                 <InlineWidget 
-                  url="https://calendly.com/shawaz_i"
+                  url={import.meta.env.VITE_CALENDLY_URL}
                   styles={{
                     height: '100%',
                     width: '100%',

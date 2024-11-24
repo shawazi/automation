@@ -52,7 +52,26 @@ const Home = () => {
               color: 'text.secondary',
               mb: 8,
               textAlign: 'center',
-              maxWidth: '800px'
+              maxWidth: '800px',
+              fontWeight: 300,
+              letterSpacing: '0.05em',
+              lineHeight: 1.6,
+              fontFamily: '"Roboto Flex", "Inter", sans-serif',
+              '& br': {
+                display: { xs: 'none', sm: 'block' }
+              },
+              position: 'relative',
+              '&::after': {
+                content: '""',
+                position: 'absolute',
+                bottom: '-2rem',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '60px',
+                height: '4px',
+                background: 'linear-gradient(45deg, #1a237e 30%, #534bae 90%)',
+                borderRadius: '2px'
+              }
             }}
           >
             Automate your business growth.
