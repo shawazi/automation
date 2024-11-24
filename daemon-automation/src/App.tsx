@@ -15,7 +15,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router basename={baseUrl}>
+      <Router>
         <Box sx={{ 
           display: 'flex', 
           flexDirection: 'column', 
