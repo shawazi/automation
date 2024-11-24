@@ -8,7 +8,7 @@ import Contact from './pages/Contact';
 import Terms from './pages/Terms';
 import FAQ from './pages/FAQ';
 
-// Get the base URL from Vite's import.meta.env
+// Get base URL from Vite
 const baseUrl = import.meta.env.BASE_URL;
 
 function App() {
