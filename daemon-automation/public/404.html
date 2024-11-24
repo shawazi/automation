@@ -4,18 +4,33 @@
     <meta charset="utf-8">
     <title>Redirecting...</title>
     <script>
-      // Simple SPA redirect script
       (function() {
-        var path = window.location.pathname;
-        var search = window.location.search;
-        var hash = window.location.hash;
-        
-        // Remove any duplicate slashes
+        var loc = window.location;
+        var path = loc.pathname;
+        var search = loc.search;
+        var hash = loc.hash;
+
+        // Clean up the path
         path = path.replace(/\/+/g, '/');
-        
-        // If we're not at the root, redirect to root with the path in the query
+
         if (path !== '/') {
-          window.location.replace('/?path=' + encodeURIComponent(path.slice(1)) + (search ? '&' + search.slice(1) : '') + hash);
+          // Preserve only the first occurrence of any parameter
+          var searchParams = new URLSearchParams(search);
+          var cleanParams = new Map();
+          
+          searchParams.forEach((value, key) => {
+            if (!cleanParams.has(key)) {
+              cleanParams.set(key, value);
+            }
+          });
+
+          var newSearch = Array.from(cleanParams.entries())
+            .map(([key, value]) => `${key}=${value}`)
+            .join('&');
+
+          // Construct the new URL
+          var newUrl = '/' + (newSearch ? '?' + newSearch : '') + hash;
+          window.location.replace(newUrl);
         }
       })();
     </script>

@@ -97,7 +97,12 @@ const Contact = () => {
         <Grid container spacing={4}>
           {/* Contact Form Section */}
           <Grid item xs={12} md={6}>
-            <Paper elevation={3} sx={{ p: 4, height: '100%' }}>
+            <Paper elevation={3} sx={{ 
+              p: 4, 
+              height: '800px',
+              display: 'flex',
+              flexDirection: 'column'
+            }}>
               <Typography variant="h4" gutterBottom>
                 Get in Touch
               </Typography>
@@ -191,22 +196,29 @@ const Contact = () => {
 
           {/* Calendar Integration */}
           <Grid item xs={12} md={6}>
-            <Paper elevation={3} sx={{ p: 4, height: '100%' }}>
+            <Paper elevation={3} sx={{ 
+              p: 4, 
+              height: '800px',
+              display: 'flex',
+              flexDirection: 'column'
+            }}>
               <Typography variant="h4" gutterBottom>
                 Schedule a Consultation
               </Typography>
               <Typography variant="body1" paragraph>
-                Book a time that works best for you. The calendar shows real-time availability.
+                Book a time that works best for you.
               </Typography>
               <Box sx={{ 
-                height: '700px',
+                flex: 1,
+                position: 'relative',
+                height: '850px',
                 bgcolor: (theme) => theme.palette.mode === 'dark' ? '#121212' : '#ffffff',
-                p: 2,
                 borderRadius: 2,
+                overflow: 'hidden',
                 '& iframe': {
-                  border: 'none',
-                  boxShadow: 'none',
-                  borderRadius: '8px',
+                  border: 'none !important',
+                  boxShadow: 'none !important',
+                  borderRadius: '8px !important',
                   filter: (theme) => theme.palette.mode === 'dark' ? 'invert(88%)' : 'none'
                 }
               }}>
@@ -214,29 +226,12 @@ const Contact = () => {
                   url={import.meta.env.VITE_CALENDLY_URL || ''}
                   styles={{
                     height: '100%',
-                    width: '100%',
+                    width: '100%'
                   }}
                   prefill={{
                     email: formData.email,
-                    name: formData.name,
-                    customAnswers: {
-                      a1: formData.company,
-                      a2: formData.serviceType
-                    }
+                    name: formData.name
                   }}
-                  pageSettings={{
-                    backgroundColor: '121212',
-                    hideEventTypeDetails: false,
-                    hideLandingPageDetails: true,
-                    primaryColor: '1a237e',
-                    hideGdprBanner: true
-                  }}
-                  utm={{
-                    utmCampaign: 'website',
-                    utmSource: 'daemon_automation',
-                    utmMedium: 'contact_page'
-                  }}
-                  embedType="Inline"
                 />
               </Box>
             </Paper>
