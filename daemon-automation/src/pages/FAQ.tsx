@@ -12,7 +12,17 @@ const FAQ = () => {
   return (
     <Container maxWidth="lg" sx={{ width: '100%', px: { xs: 2, sm: 3, md: 4 } }}>
       <animated.div style={fadeIn}>
-        <Typography variant="h2" sx={{ mb: 6, mt: 4, textAlign: 'center' }}>
+        <Typography variant="h2" sx={{ 
+          mb: 6, 
+          mt: 4, 
+          textAlign: 'center',
+          fontSize: { xs: '2.5rem', md: '3.75rem' },
+          fontWeight: 700,
+          background: 'linear-gradient(45deg, #1a237e 30%, #534bae 90%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text'
+        }}>
           Frequently Asked Questions
         </Typography>
 
