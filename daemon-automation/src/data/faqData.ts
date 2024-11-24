@@ -1,7 +1,4 @@
-interface FAQItem {
-  question: string;
-  answer: string[];
-}
+import type { FAQItem } from '../types/faq';
 
 export const faqData: FAQItem[] = [
   {

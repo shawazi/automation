@@ -1,7 +1,7 @@
-import { Container, Typography, Accordion, AccordionSummary, AccordionDetails, Box } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Container, Typography } from '@mui/material';
 import { useSpring, animated } from '@react-spring/web';
 import { faqData } from '../data/faqData';
+import FAQAccordion from '../components/FAQAccordion';
 
 const FAQ = () => {
   const fadeIn = useSpring({
@@ -28,20 +28,7 @@ const FAQ = () => {
         </Typography>
 
         {faqData.map((faq, index) => (
-          <Accordion key={index} defaultExpanded={index === 0}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="h6">
-                {faq.question}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              {faq.answer.map((paragraph, pIndex) => (
-                <Typography key={pIndex} paragraph={pIndex !== faq.answer.length - 1}>
-                  {paragraph}
-                </Typography>
-              ))}
-            </AccordionDetails>
-          </Accordion>
+          <FAQAccordion key={index} faq={faq} index={index} />
         ))}
       </animated.div>
     </Container>
