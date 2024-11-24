@@ -25,6 +25,14 @@ const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Debug environment variables
+  console.log('Environment Variables Debug:');
+  console.log('VITE_CALENDLY_URL:', import.meta.env.VITE_CALENDLY_URL);
+  console.log('VITE_EMAILJS_SERVICE_ID:', import.meta.env.VITE_EMAILJS_SERVICE_ID);
+  console.log('VITE_EMAILJS_TEMPLATE_ID:', import.meta.env.VITE_EMAILJS_TEMPLATE_ID);
+  console.log('VITE_EMAILJS_PUBLIC_KEY:', import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+  console.log('VITE_CONTACT_EMAIL:', import.meta.env.VITE_CONTACT_EMAIL);
+
   const fadeIn = useSpring({
     from: { opacity: 0, y: 30 },
     to: { opacity: 1, y: 0 },
@@ -221,7 +229,12 @@ const Contact = () => {
                     hideEventTypeDetails: false,
                     hideLandingPageDetails: true,
                     primaryColor: '1a237e',
-                    textColor: 'ffffff'
+                    hideGdprBanner: true
+                  }}
+                  utm={{
+                    utmCampaign: 'website',
+                    utmSource: 'daemon_automation',
+                    utmMedium: 'contact_page'
                   }}
                   embedType="Inline"
                 />

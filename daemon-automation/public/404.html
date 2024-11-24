@@ -2,32 +2,25 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Single Page Apps for GitHub Pages</title>
-    <script type="text/javascript">
-      // Single Page Apps for GitHub Pages
-      // MIT License
-      // https://github.com/rafgraph/spa-github-pages
-      var pathSegmentsToKeep = 1;
-
-      var l = window.location;
-      
-      // Handle complex URL parameters better
-      var redirectUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/');
-      
-      // Preserve query parameters without encoding
-      if (l.search) {
-        redirectUrl += (l.search.replace(/&/g, '~and~'));
-      }
-      
-      if (l.hash) {
-        redirectUrl += l.hash;
-      }
-
-      l.replace(redirectUrl);
+    <title>Redirecting...</title>
+    <script>
+      // Simple SPA redirect script
+      (function() {
+        var path = window.location.pathname;
+        var search = window.location.search;
+        var hash = window.location.hash;
+        
+        // Remove any duplicate slashes
+        path = path.replace(/\/+/g, '/');
+        
+        // If we're not at the root, redirect to root with the path in the query
+        if (path !== '/') {
+          window.location.replace('/?path=' + encodeURIComponent(path.slice(1)) + (search ? '&' + search.slice(1) : '') + hash);
+        }
+      })();
     </script>
   </head>
   <body>
+    Redirecting...
   </body>
 </html>
