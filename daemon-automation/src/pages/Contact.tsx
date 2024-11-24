@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container, Grid, Typography, Paper, Box, TextField, Button, Divider, Alert } from '@mui/material';
+import { Container, Grid, Typography, Paper, Box, TextField, Button, Alert } from '@mui/material';
 import { useSpring, animated } from '@react-spring/web';
 import { InlineWidget } from 'react-calendly';
 
@@ -31,11 +31,8 @@ const Contact = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    // TODO: Implement form submission logic
-    // This would connect to your backend API
     setSubmitted(true);
     
-    // Reset form after submission
     setTimeout(() => {
       setFormData(initialFormState);
       setSubmitted(false);
@@ -146,7 +143,7 @@ const Contact = () => {
                       fullWidth
                       sx={{
                         mt: 2,
-                        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+                        background: 'linear-gradient(45deg, #1a237e 30%, #534bae 90%)',
                         color: 'white',
                       }}
                     >
@@ -158,21 +155,47 @@ const Contact = () => {
             </Paper>
           </Grid>
 
-          {/* Calendly Integration */}
+          {/* Calendar Integration */}
           <Grid item xs={12} md={6}>
             <Paper elevation={3} sx={{ p: 4, height: '100%' }}>
               <Typography variant="h4" gutterBottom>
                 Schedule a Consultation
               </Typography>
               <Typography variant="body1" paragraph>
-                Book a time that works best for you. We'll discuss your automation needs and create a customized solution.
+                Book a time that works best for you. The calendar shows real-time availability.
               </Typography>
-              <Box sx={{ height: '600px' }}>
+              <Box sx={{ 
+                height: '700px',
+                bgcolor: (theme) => theme.palette.mode === 'dark' ? '#121212' : '#ffffff',
+                p: 2,
+                borderRadius: 2,
+                '& iframe': {
+                  border: 'none',
+                  boxShadow: 'none',
+                  borderRadius: '8px',
+                  filter: (theme) => theme.palette.mode === 'dark' ? 'invert(88%)' : 'none'
+                }
+              }}>
                 <InlineWidget 
-                  url="https://calendly.com/your-calendly-url"
+                  url="https://calendly.com/shawaz_i"
                   styles={{
                     height: '100%',
                     width: '100%',
+                  }}
+                  prefill={{
+                    email: formData.email,
+                    name: formData.name,
+                    customAnswers: {
+                      a1: formData.company,
+                      a2: formData.serviceType
+                    }
+                  }}
+                  pageSettings={{
+                    backgroundColor: '121212',
+                    hideEventTypeDetails: false,
+                    hideLandingPageDetails: true,
+                    primaryColor: '1a237e',
+                    textColor: 'ffffff'
                   }}
                 />
               </Box>
