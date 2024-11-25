@@ -5,22 +5,17 @@ const About = () => {
   const fadeIn = useSpring({
     from: { opacity: 0, y: 30 },
     to: { opacity: 1, y: 0 },
-    config: { mass: 1, tension: 400, friction: 26 }
+    config: { mass: 1, tension: 280, friction: 60 }
   });
 
   return (
-    <Container maxWidth="lg" sx={{ width: '100%', px: { xs: 2, sm: 3, md: 4 } }}>
-      <animated.div style={fadeIn}>
+    <animated.div style={fadeIn}>
+      <Container maxWidth="lg" sx={{ py: 8 }}>
         <Typography variant="h2" sx={{ 
           mb: 6, 
-          mt: 4, 
           textAlign: 'center',
           fontSize: { xs: '2.5rem', md: '3.75rem' },
-          fontWeight: 700,
-          background: 'linear-gradient(45deg, #1a237e 30%, #534bae 90%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text'
+          fontWeight: 'bold'
         }}>
           About Us
         </Typography>
@@ -31,8 +26,8 @@ const About = () => {
               <Typography variant="h5" gutterBottom>
                 Our Mission
               </Typography>
-              <Typography variant="body1" paragraph color="text.secondary">
-                We empower small businesses to thrive in the digital age by automating their repetitive tasks and workflows. Our mission is to make enterprise-grade automation technology accessible and affordable for businesses of all sizes, helping them save time, reduce errors, and focus on what truly matters - growing their business.
+              <Typography variant="body1" paragraph>
+                We transform businesses through intelligent automation solutions. Our mission is to harness the power of AI to solve real business challenges, from personalized customer outreach to streamlined employee training. We believe that advanced automation should be accessible to businesses of all sizes, helping them operate more efficiently and grow sustainably.
               </Typography>
             </Paper>
           </Grid>
@@ -40,11 +35,18 @@ const About = () => {
           <Grid item xs={12} md={6}>
             <Paper sx={{ p: 4, height: '100%', borderRadius: 2 }}>
               <Typography variant="h5" gutterBottom>
-                Our Expertise
+                Our Solutions
               </Typography>
-              <Typography variant="body1" color="text.secondary">
-                With years of experience in business process automation, we specialize in creating custom solutions that streamline operations. Our expertise spans workflow automation, data integration, document processing, and API development. We understand the unique challenges of small businesses and craft solutions that deliver immediate value while scaling with your growth.
+              <Typography variant="body1">
+                We specialize in creating AI-powered solutions that deliver immediate value:
               </Typography>
+              <Box component="ul" sx={{ mt: 2, pl: 2 }}>
+                <Typography component="li">Intelligent Customer Engagement Systems</Typography>
+                <Typography component="li">AI-Powered Training & Onboarding</Typography>
+                <Typography component="li">Customized Plan Generation</Typography>
+                <Typography component="li">Automated Support Solutions</Typography>
+                <Typography component="li">Smart Lead Generation & Conversion</Typography>
+              </Box>
             </Paper>
           </Grid>
 
@@ -53,9 +55,16 @@ const About = () => {
               <Typography variant="h5" gutterBottom>
                 Our Approach
               </Typography>
-              <Typography variant="body1" color="text.secondary">
-                We believe in simplicity and effectiveness. Our approach combines cutting-edge technology with practical business sense. We work closely with each client to understand their unique needs, implement tailored solutions, and provide ongoing support. Whether you're looking to automate customer service, streamline operations, or integrate systems, we're here to make it happen efficiently and affordably.
+              <Typography variant="body1">
+                We combine cutting-edge AI technology with practical business solutions. Each system we build is:
               </Typography>
+              <Box component="ul" sx={{ mt: 2, pl: 2 }}>
+                <Typography component="li">Customized to your specific needs</Typography>
+                <Typography component="li">Built with scalability in mind</Typography>
+                <Typography component="li">Designed for easy integration</Typography>
+                <Typography component="li">Focused on measurable results</Typography>
+                <Typography component="li">Supported by ongoing optimization</Typography>
+              </Box>
             </Paper>
           </Grid>
 
@@ -64,35 +73,39 @@ const About = () => {
               <Typography variant="h5" gutterBottom>
                 Why Choose Us
               </Typography>
-              <Box component="div" sx={{ color: 'text.secondary' }}>
-                <ul style={{ margin: 0, paddingLeft: '1.5rem' }}>
-                  <li>
-                    <Typography variant="body1">
-                      Custom Solutions: Each business is unique, and our automation solutions are tailored to your specific needs
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={6}>
+                  <Box>
+                    <Typography variant="h6" gutterBottom>
+                      Expertise
                     </Typography>
-                  </li>
-                  <li>
-                    <Typography variant="body1">
-                      Affordable Pricing: Enterprise-grade automation technology within reach of small businesses
+                    <Typography variant="body1" paragraph>
+                      Our team combines deep expertise in AI and machine learning with years of business process optimization experience. We understand both the technical and business aspects of automation.
                     </Typography>
-                  </li>
-                  <li>
-                    <Typography variant="body1">
-                      Ongoing Support: We're committed to your success with dedicated support and regular updates
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Box>
+                    <Typography variant="h6" gutterBottom>
+                      Results
                     </Typography>
-                  </li>
-                  <li>
-                    <Typography variant="body1">
-                      Proven Results: Our solutions have helped businesses reduce manual work by up to 70% and cut operational costs significantly
+                    <Typography variant="body1" paragraph>
+                      Our solutions have helped businesses achieve:
                     </Typography>
-                  </li>
-                </ul>
-              </Box>
+                    <Box component="ul" sx={{ pl: 2 }}>
+                      <Typography component="li">Up to 70% reduction in manual work</Typography>
+                      <Typography component="li">3x improvement in response rates</Typography>
+                      <Typography component="li">50% faster employee onboarding</Typography>
+                      <Typography component="li">24/7 automated customer support</Typography>
+                    </Box>
+                  </Box>
+                </Grid>
+              </Grid>
             </Paper>
           </Grid>
         </Grid>
-      </animated.div>
-    </Container>
+      </Container>
+    </animated.div>
   );
 };
 

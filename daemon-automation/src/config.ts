@@ -24,8 +24,29 @@ if (import.meta.env.DEV) {
   console.log('VITE_CONTACT_EMAIL:', import.meta.env.VITE_CONTACT_EMAIL);
 }
 
+const isValidUrl = (url: string) => {
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 export const validateConfig = () => {
-  // In development, be strict about environment variables
+  // Always validate URLs regardless of environment
+  const calendlyValid = Boolean(config.CALENDLY_URL) && isValidUrl(config.CALENDLY_URL);
+  if (config.CALENDLY_URL && !calendlyValid) {
+    console.error('Invalid Calendly URL:', config.CALENDLY_URL);
+  }
+
+  const emailValid = Boolean(
+    config.EMAILJS_SERVICE_ID &&
+    config.EMAILJS_TEMPLATE_ID &&
+    config.EMAILJS_PUBLIC_KEY &&
+    config.CONTACT_EMAIL
+  );
+
   if (import.meta.env.DEV) {
     const missingVars = Object.entries(config)
       .filter(([, value]) => !value)
@@ -37,16 +58,7 @@ export const validateConfig = () => {
     }
   }
 
-  // In production, only validate the variables needed for the current feature
-  const calendlyValid = Boolean(config.CALENDLY_URL);
-  const emailValid = Boolean(
-    config.EMAILJS_SERVICE_ID &&
-    config.EMAILJS_TEMPLATE_ID &&
-    config.EMAILJS_PUBLIC_KEY &&
-    config.CONTACT_EMAIL
-  );
-
-  // Return true if at least one feature is available
+  // Return true if at least one feature is available and valid
   return calendlyValid || emailValid;
 };
 

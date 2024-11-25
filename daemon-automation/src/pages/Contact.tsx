@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container, Grid, Typography, Paper, Box, TextField, Button, Alert } from '@mui/material';
+import { Container, Grid, Typography, Paper, Box, TextField, Button, Alert, MenuItem } from '@mui/material';
 import { useSpring, animated } from '@react-spring/web';
 import { InlineWidget } from 'react-calendly';
 import emailjs from '@emailjs/browser';
@@ -13,6 +13,15 @@ interface ContactForm {
   serviceType: string;
 }
 
+const serviceTypes = [
+  { value: 'cold-outreach', label: 'Personalized Cold Outreach System' },
+  { value: 'training-bot', label: 'Staff Training ChatBot' },
+  { value: 'plan-generator', label: 'Customized Plan Generator' },
+  { value: 'onboarding', label: 'Onboarding Chat Assistant' },
+  { value: 'guest-support', label: 'Airbnb Guest Support Chat' },
+  { value: 'other', label: 'Other / Custom Solution' },
+];
+
 const initialFormState: ContactForm = {
   name: '',
   email: '',
@@ -25,6 +34,7 @@ const Contact = () => {
   const [formData, setFormData] = useState<ContactForm>(initialFormState);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   
   const fadeIn = useSpring({
     from: { opacity: 0, y: 30 },
@@ -44,9 +54,11 @@ const Contact = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setError(null);
+    setIsLoading(true);
     
     if (!emailAvailable) {
-      setError('Email service is currently unavailable. Please try again later.');
+      setError('Email service is currently unavailable. Please try scheduling a meeting instead.');
+      setIsLoading(false);
       return;
     }
     
@@ -60,7 +72,9 @@ const Contact = () => {
           from_email: formData.email,
           company: formData.company,
           message: formData.message,
-          service_type: formData.serviceType,
+          service_type: formData.serviceType ? 
+            serviceTypes.find(s => s.value === formData.serviceType)?.label || formData.serviceType :
+            'Not specified',
         },
         config.EMAILJS_PUBLIC_KEY
       );
@@ -69,7 +83,9 @@ const Contact = () => {
       setFormData(initialFormState);
     } catch (err) {
       console.error('Failed to send email:', err);
-      setError('Failed to send message. Please try again later.');
+      setError('Failed to send message. Please try scheduling a meeting or try again later.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -95,13 +111,13 @@ const Contact = () => {
 
         {!calendlyAvailable && !emailAvailable && (
           <Alert severity="error" sx={{ mb: 4 }}>
-            Contact form is currently unavailable. Please try again later.
+            Our contact services are currently being updated. Please try again later or email us directly.
           </Alert>
         )}
 
         <Grid container spacing={4}>
           {emailAvailable && (
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={calendlyAvailable ? 6 : 12}>
               <Paper elevation={3} sx={{ p: 4, height: '100%' }}>
                 <Typography variant="h5" sx={{ mb: 4, fontWeight: 500 }}>
                   Send us a Message
@@ -141,13 +157,20 @@ const Contact = () => {
                       sx={{ mb: 2 }}
                     />
                     <TextField
+                      select
                       fullWidth
                       label="Service Type"
                       name="serviceType"
                       value={formData.serviceType}
                       onChange={handleChange}
                       sx={{ mb: 2 }}
-                    />
+                    >
+                      {serviceTypes.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
                     <TextField
                       fullWidth
                       label="Message"
@@ -164,8 +187,9 @@ const Contact = () => {
                       variant="contained"
                       size="large"
                       fullWidth
+                      disabled={isLoading}
                     >
-                      Send Message
+                      {isLoading ? 'Sending...' : 'Send Message'}
                     </Button>
                     {error && (
                       <Alert severity="error" sx={{ mt: 2 }}>
@@ -193,6 +217,8 @@ const Contact = () => {
                   flexGrow: 1, 
                   '& iframe': { 
                     border: 'none',
+                    width: '100% !important',
+                    height: '100% !important',
                     borderRadius: '8px !important',
                     filter: (theme) => theme.palette.mode === 'dark' ? 'invert(88%)' : 'none'
                   }

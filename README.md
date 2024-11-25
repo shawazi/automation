@@ -91,6 +91,52 @@ This project is structured as a monorepo to manage multiple related services. Ea
 - [ ] Implement smart notification system
 - [ ] Add predictive analytics
 
+### AI Automation Services
+
+## Service Implementation TODOs
+
+### 1. Personalized Cold Outreach System
+- [ ] Build LinkedIn profile scraper using Browse AI
+- [ ] Implement ChatGPT API for personalized message generation
+- [ ] Create email/SMS platform integration system
+- [ ] Add analytics for tracking response rates
+- [ ] Develop A/B testing capabilities
+
+### 2. Staff Training ChatBot
+- [ ] Create document ingestion system
+- [ ] Implement Botpress/Stack AI integration
+- [ ] Build internal systems connector
+- [ ] Add training data management interface
+- [ ] Develop analytics dashboard
+
+### 3. Customized Plan Generator
+- [ ] Build vector database integration
+- [ ] Implement plan template system
+- [ ] Create customer data input interface
+- [ ] Add plan generation engine
+- [ ] Develop customization options
+
+### 4. Onboarding Chat Assistant
+- [ ] Create onboarding process mapping tool
+- [ ] Build chatbot with process guidance
+- [ ] Implement form/contract completion system
+- [ ] Add progress tracking
+- [ ] Develop integration connectors
+
+### 5. Airbnb Guest Support Chat
+- [ ] Build FAQ management system
+- [ ] Implement WhatsApp/Telegram integration
+- [ ] Create property-specific response system
+- [ ] Add guest interaction analytics
+- [ ] Develop host notification system
+
+## Development Status
+- [ ] Initial service descriptions
+- [ ] Landing page updates
+- [ ] Service integration framework
+- [ ] Analytics system
+- [ ] Client dashboard
+
 ### Security & Compliance
 - [ ] Implement OAuth authentication
 - [ ] Add role-based access control
