@@ -1,27 +1,35 @@
 import { Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import type { FAQItem } from '../types/faq';
+import type { FAQItem } from '../constants/faq';
 
 interface FAQAccordionProps {
-  faq: FAQItem;
-  index: number;
+  items: FAQItem[];
 }
 
-const FAQAccordion = ({ faq, index }: FAQAccordionProps) => (
-  <Accordion defaultExpanded={index === 0}>
-    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-      <Typography variant="h6">
-        {faq.question}
-      </Typography>
-    </AccordionSummary>
-    <AccordionDetails>
-      {faq.answer.map((paragraph, pIndex) => (
-        <Typography key={pIndex} paragraph={pIndex !== faq.answer.length - 1}>
-          {paragraph}
-        </Typography>
-      ))}
-    </AccordionDetails>
-  </Accordion>
+const FAQAccordion = ({ items }: FAQAccordionProps) => (
+  <>
+    {items.map((faq, index) => (
+      <Accordion key={index} defaultExpanded={index === 0}>
+        <AccordionSummary 
+          expandIcon={<ExpandMoreIcon />}
+          sx={{
+            '&.Mui-expanded': {
+              minHeight: '48px',
+            }
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: 500 }}>
+            {faq.question}
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            {faq.answer}
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+    ))}
+  </>
 );
 
 export default FAQAccordion;

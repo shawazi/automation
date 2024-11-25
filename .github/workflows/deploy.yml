@@ -98,7 +98,14 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build
+        run: |
+          echo "Checking environment variables (masked)..."
+          echo "VITE_CALENDLY_URL: ${VITE_CALENDLY_URL:+set}"
+          echo "VITE_CONTACT_EMAIL: ${VITE_CONTACT_EMAIL:+set}"
+          echo "VITE_EMAILJS_PUBLIC_KEY: ${VITE_EMAILJS_PUBLIC_KEY:+set}"
+          echo "VITE_EMAILJS_SERVICE_ID: ${VITE_EMAILJS_SERVICE_ID:+set}"
+          echo "VITE_EMAILJS_TEMPLATE_ID: ${VITE_EMAILJS_TEMPLATE_ID:+set}"
+          npm run build
         env:
           VITE_CALENDLY_URL: ${{ secrets.VITE_CALENDLY_URL }}
           VITE_CONTACT_EMAIL: ${{ secrets.VITE_CONTACT_EMAIL }}

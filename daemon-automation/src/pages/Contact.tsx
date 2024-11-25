@@ -3,7 +3,7 @@ import { Container, Grid, Typography, Paper, Box, TextField, Button, Alert } fro
 import { useSpring, animated } from '@react-spring/web';
 import { InlineWidget } from 'react-calendly';
 import emailjs from '@emailjs/browser';
-import config, { validateConfig } from '../config';
+import config from '../config';
 
 interface ContactForm {
   name: string;
@@ -25,26 +25,30 @@ const Contact = () => {
   const [formData, setFormData] = useState<ContactForm>(initialFormState);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [configValid] = useState(validateConfig());
+  
   const fadeIn = useSpring({
     from: { opacity: 0, y: 30 },
     to: { opacity: 1, y: 0 },
     config: { mass: 1, tension: 280, friction: 60 }
   });
 
-  if (!configValid) {
-    return (
-      <Container>
-        <Alert severity="error">
-          Contact form is currently unavailable due to missing configuration. Please try again later.
-        </Alert>
-      </Container>
-    );
-  }
+  // Check which features are available
+  const calendlyAvailable = Boolean(config.CALENDLY_URL);
+  const emailAvailable = Boolean(
+    config.EMAILJS_SERVICE_ID &&
+    config.EMAILJS_TEMPLATE_ID &&
+    config.EMAILJS_PUBLIC_KEY &&
+    config.CONTACT_EMAIL
+  );
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setError(null);
+    
+    if (!emailAvailable) {
+      setError('Email service is currently unavailable. Please try again later.');
+      return;
+    }
     
     try {
       await emailjs.send(
@@ -63,18 +67,14 @@ const Contact = () => {
       
       setSubmitted(true);
       setFormData(initialFormState);
-      
-      setTimeout(() => {
-        setSubmitted(false);
-      }, 5000);
     } catch (err) {
+      console.error('Failed to send email:', err);
       setError('Failed to send message. Please try again later.');
-      console.error('Email error:', err);
     }
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -83,48 +83,36 @@ const Contact = () => {
 
   return (
     <animated.div style={fadeIn}>
-      <Container maxWidth="lg" sx={{ width: '100%', px: { xs: 2, sm: 3, md: 4 } }}>
+      <Container maxWidth="lg" sx={{ py: 8 }}>
         <Typography variant="h2" sx={{ 
           mb: 6, 
-          mt: 4, 
           textAlign: 'center',
           fontSize: { xs: '2.5rem', md: '3.75rem' },
-          fontWeight: 700,
-          background: 'linear-gradient(45deg, #1a237e 30%, #534bae 90%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text'
+          fontWeight: 'bold'
         }}>
           Contact Us
         </Typography>
+
+        {!calendlyAvailable && !emailAvailable && (
+          <Alert severity="error" sx={{ mb: 4 }}>
+            Contact form is currently unavailable. Please try again later.
+          </Alert>
+        )}
+
         <Grid container spacing={4}>
-          {/* Contact Form Section */}
-          <Grid item xs={12} md={6}>
-            <Paper elevation={3} sx={{ 
-              p: 4, 
-              height: '800px',
-              display: 'flex',
-              flexDirection: 'column'
-            }}>
-              <Typography variant="h4" gutterBottom>
-                Get in Touch
-              </Typography>
-              <Typography variant="body1" paragraph>
-                Let's discuss how we can automate your business processes.
-              </Typography>
-              <form onSubmit={handleSubmit}>
-                {submitted && (
-                  <Alert severity="success" sx={{ mb: 2 }}>
+          {emailAvailable && (
+            <Grid item xs={12} md={6}>
+              <Paper elevation={3} sx={{ p: 4, height: '100%' }}>
+                <Typography variant="h5" sx={{ mb: 4, fontWeight: 500 }}>
+                  Send us a Message
+                </Typography>
+
+                {submitted ? (
+                  <Alert severity="success">
                     Thank you for your message! We'll get back to you soon.
                   </Alert>
-                )}
-                {error && (
-                  <Alert severity="error" sx={{ mb: 2 }}>
-                    {error}
-                  </Alert>
-                )}
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                ) : (
+                  <Box component="form" onSubmit={handleSubmit}>
                     <TextField
                       fullWidth
                       label="Name"
@@ -132,9 +120,8 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
+                      sx={{ mb: 2 }}
                     />
-                  </Grid>
-                  <Grid item xs={12}>
                     <TextField
                       fullWidth
                       label="Email"
@@ -143,29 +130,24 @@ const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
+                      sx={{ mb: 2 }}
                     />
-                  </Grid>
-                  <Grid item xs={12}>
                     <TextField
                       fullWidth
                       label="Company"
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
+                      sx={{ mb: 2 }}
                     />
-                  </Grid>
-                  <Grid item xs={12}>
                     <TextField
                       fullWidth
                       label="Service Type"
                       name="serviceType"
                       value={formData.serviceType}
                       onChange={handleChange}
-                      required
-                      helperText="e.g., Lead Generation, Process Management, Task Scheduling"
+                      sx={{ mb: 2 }}
                     />
-                  </Grid>
-                  <Grid item xs={12}>
                     <TextField
                       fullWidth
                       label="Message"
@@ -175,70 +157,57 @@ const Contact = () => {
                       value={formData.message}
                       onChange={handleChange}
                       required
+                      sx={{ mb: 3 }}
                     />
-                  </Grid>
-                  <Grid item xs={12}>
                     <Button
                       type="submit"
                       variant="contained"
                       size="large"
                       fullWidth
-                      sx={{
-                        mt: 2,
-                        background: 'linear-gradient(45deg, #1a237e 30%, #534bae 90%)',
-                        color: 'white',
-                      }}
                     >
                       Send Message
                     </Button>
-                  </Grid>
-                </Grid>
-              </form>
-            </Paper>
-          </Grid>
+                    {error && (
+                      <Alert severity="error" sx={{ mt: 2 }}>
+                        {error}
+                      </Alert>
+                    )}
+                  </Box>
+                )}
+              </Paper>
+            </Grid>
+          )}
 
-          {/* Calendar Integration */}
-          <Grid item xs={12} md={6}>
-            <Paper elevation={3} sx={{ 
-              p: 4, 
-              height: '800px',
-              display: 'flex',
-              flexDirection: 'column'
-            }}>
-              <Typography variant="h4" gutterBottom>
-                Schedule a Consultation
-              </Typography>
-              <Typography variant="body1" paragraph>
-                Book a time that works best for you.
-              </Typography>
-              <Box sx={{ 
-                flex: 1,
-                position: 'relative',
-                height: '850px',
-                bgcolor: (theme) => theme.palette.mode === 'dark' ? '#121212' : '#ffffff',
-                borderRadius: 2,
-                overflow: 'hidden',
-                '& iframe': {
-                  border: 'none !important',
-                  boxShadow: 'none !important',
-                  borderRadius: '8px !important',
-                  filter: (theme) => theme.palette.mode === 'dark' ? 'invert(88%)' : 'none'
-                }
+          {calendlyAvailable && (
+            <Grid item xs={12} md={emailAvailable ? 6 : 12}>
+              <Paper elevation={3} sx={{ 
+                p: 4, 
+                height: '600px',
+                display: 'flex',
+                flexDirection: 'column'
               }}>
-                <InlineWidget 
-                  url={config.CALENDLY_URL || ''}
-                  styles={{
-                    height: '100%',
-                    width: '100%'
-                  }}
-                  prefill={{
-                    email: formData.email,
-                    name: formData.name
-                  }}
-                />
-              </Box>
-            </Paper>
-          </Grid>
+                <Typography variant="h5" sx={{ mb: 4, fontWeight: 500 }}>
+                  Schedule a Meeting
+                </Typography>
+                <Box sx={{ 
+                  flexGrow: 1, 
+                  '& iframe': { 
+                    border: 'none',
+                    borderRadius: '8px !important',
+                    filter: (theme) => theme.palette.mode === 'dark' ? 'invert(88%)' : 'none'
+                  }
+                }}>
+                  <InlineWidget 
+                    url={config.CALENDLY_URL}
+                    styles={{
+                      height: '100%',
+                      width: '100%'
+                    }}
+                  />
+                </Box>
+              </Paper>
+            </Grid>
+          )}
         </Grid>
       </Container>
     </animated.div>
